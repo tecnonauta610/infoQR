@@ -1,35 +1,434 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CopyWizard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-            background-color: #f0f8ff; /* Fondo claro */
-            color: #333; /* Color del texto */
-        }
-        h1 {
-            margin: 20px 0;
-        }
-    </style>
+<html><head><base href="https://codingapi.dev/">
+<title>Tecnonauta - copyWizard App</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+  --bg-light: #ffffff;
+  --text-light: #333333;
+  --bg-dark: #1a1a1a;
+  --text-dark: #ffffff;
+  --primary: #4f46e5;
+  --primary-dark: #4338ca;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+body.dark-mode {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.security-badge {
+  background: #10B981;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.security-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.content-section {
+  opacity: 1;
+  transform: none;
+  display: none;
+}
+
+.content-section.active {
+  display: block;
+}
+
+.hero {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border-radius: 15px;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: white;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.2);
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.nav-pills {
+  display: flex;
+  gap: 1rem;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5rem;
+  border-radius: 50px;
+}
+
+.nav-pill {
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-pill:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.nav-pill.active {
+  background: white;
+  color: var(--primary);
+}
+
+.info-box {
+  background: var(--bg-light);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.dark-mode .info-box {
+  background: #2d2d2d;
+}
+
+.info-box a {
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+h2 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
+  }
+  
+  .hero {
+    padding: 1.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .info-box {
+    padding: 1.5rem;
+  }
+  
+  .nav-pills {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 15px;
+  }
+  
+  .nav-pill {
+    text-align: center;
+    flex: 1 1 auto;
+    min-width: 100px;
+  }
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.image-container {
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.05);
+}
+
+.dark-mode .image-container {
+  background: #333;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+.dark-mode .contact-form input,
+.dark-mode .contact-form textarea {
+  background: #2d2d2d;
+  color: var(--text-dark);
+  border-color: #444;
+}
+
+.contact-form button {
+  padding: 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-form button:hover {
+  background: var(--primary-dark);
+}
+</style>
 </head>
 <body>
-      <h1>Solo Informacion de nuestraApp</>
-    <h1>Creado por Tecnonauta</h1>
-    <h1>Número: (+53) 56639178</h1>
-    
-    <h2>Gmail: tecnonauta.net@gmail.com</h2>
-    <h2>Correo Nauta: naruteuu@nauta.cu</h2>
-    <h2>Dirección: Banes, Holguín, Cuba</h2>
-    <h2>Uso de la app:</h2>
-    <p>copyWizard Es herramienta la he creado para monitorear sus grabaciones y crear facturas para sus clientes. Es esencial para los que llenan memorias. Esto es una versión de mirón pero sin licencia, es de código abierto, libre de virus.</p>
-    <p>Saludos, su creador Rodolfo Jara alias: Tecnonauta</p>
-    
-    <h2>Página web Del Crador : <a href="https://tecnonauta610.github.io/promobani/" target="_blank">https://tecnonauta610.github.io/promobani/</a></h2>
+<header>
+  <nav>
+    <div style="display: flex; align-items: center;">
+      <span class="logo">Tecnonauta</span>
+      <button class="theme-toggle" id="themeToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="nav-container">
+      <div class="nav-pills">
+        <span class="nav-pill" onclick="showContent('inicio')">Inicio</span>
+        <span class="nav-pill active" onclick="showContent('imagenes')">Imágenes</span>
+        <span class="nav-pill" onclick="showContent('contacto')">Contacto</span>
+      </div>
+    </div>
+  </nav>
+</header>
 
-</body>
-</html>
+<main>
+  <section class="hero">
+    <h1>copyWizard App</h1>
+    <p>Tu herramienta esencial para gestión de ficheros y Factura</p>
+  </section>
+
+  <div id="inicio" class="content-section">
+    <div class="info-box">
+      <h2>¿Qué es copyWizard?</h2>
+      <p>copyWizard es una herramienta creada para monitorear sus grabaciones y crear facturas para sus clientes. Es esencial para los que llenan memorias. Esta es una versión de código abierto, libre de virus.</p>
+      <p>Saludos, su creador Rodolfo Jara alias: Tecnonauta</p>
+      <p>Visita nuestra página web: <a href="https://tecnonauta610.github.io/promobani/" target="_blank">https://tecnonauta610.github.io/promobani/</a></p>
+    </div>
+  </div>
+
+  <div id="imagenes" class="content-section active">
+    <div class="info-box">
+      <h2>Imágenes</h2>
+      <div class="image-grid">
+        <div class="image-container">
+          <img alt="placeholder image 1, modern minimal design" src="https://placehold.co/600x400/4f46e5/ffffff" width="600" height="400">
+        </div>
+        <div class="image-container">
+          <img alt="placeholder image 2, modern minimal design" src="https://placehold.co/600x400/4f46e5/ffffff" width="600" height="400">
+        </div>
+        <div class="image-container">
+          <img alt="placeholder image 3, modern minimal design" src="https://placehold.co/600x400/4f46e5/ffffff" width="600" height="400">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="contacto" class="content-section">
+    <div class="info-box">
+      <h2>Contacto</h2>
+      <div class="contact-form">
+        <input type="text" id="name" placeholder="Tu nombre">
+        <input type="email" id="email" placeholder="Tu correo electrónico">
+        <input type="text" id="subject" placeholder="Asunto">
+        <textarea id="message" placeholder="Comentario o duda" rows="4"></textarea>
+        <button onclick="sendEmail()">Enviar mensaje</button>
+      </div>
+      <p style="margin-top: 2rem;">Gmail: tecnonauta.net@gmail.com</p>
+      <p>Correo Nauta: naruteuu@nauta.cu</p>
+      <p>Número: (+53) 56639178</p>
+      <p>Dirección: Banes, Holguín, Cuba</p>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@latest/dist/email.min.js"></script>
+<script>
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+
+function showContent(sectionId) {
+  // Update active pill
+  document.querySelectorAll('.nav-pill').forEach(pill => {
+    pill.classList.remove('active');
+  });
+  event.target.classList.add('active');
+
+  // Update content section
+  document.querySelectorAll('.content-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(sectionId).classList.add('active');
+}
+
+let isDarkMode = false;
+
+themeToggle.addEventListener('click', () => {
+  isDarkMode = !isDarkMode;
+  body.classList.toggle('dark-mode');
+  
+  if (isDarkMode) {
+    themeToggle.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+    `;
+  } else {
+    themeToggle.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+      </svg>
+    `;
+  }
+});
+
+(function() {
+  emailjs.init("mFH-Tziqc62kok1kS");
+})();
+
+function detectDevice() {
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  if (/android/i.test(userAgent)) return "Android";
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) return "iOS";
+  if (/Windows NT/.test(userAgent)) return "Windows";
+  if (/Macintosh/.test(userAgent)) return "MacOS";
+  return "Desconocido";
+}
+
+function sendEmail() {
+  var name = document.getElementById('name').value;
+  var email = document.getElementById('email').value;
+  var subject = document.getElementById('subject').value;
+  var message = document.getElementById('message').value;
+  var device = detectDevice();
+
+  var templateParams = {
+    from_name: name,
+    from_email: email,
+    reply_to: email,
+    subject: subject,
+    message: message,
+    device: device
+  };
+
+  emailjs.send('service_o93oawf', 'template_tqsfh3p', templateParams)
+    .then(function(response) {
+      console.log('SUCCESS!', response.status, response.text);
+      alert('Mensaje enviado correctamente. ¡Gracias ' + name + '!');
+      
+      // Clear all form fields
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('subject').value = '';
+      document.getElementById('message').value = '';
+    }, function(error) {
+      console.log('FAILED...', error);
+      alert('Error al enviar el mensaje: ' + JSON.stringify(error));
+    });
+}
+</script>
+</body></html>
